@@ -1,0 +1,174 @@
+﻿:root {
+  --bg: #f7f5ef;
+  --surface: #ffffff;
+  --text: #1f2933;
+  --muted: #52606d;
+  --brand: #0b6b78;
+  --brand-dark: #084c55;
+  --error: #b42318;
+  --success: #0f5132;
+  --ring: #17a2b8;
+  --panel: #f9fbfd;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 10%, #d8efe8 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, #f4decf 0%, transparent 35%),
+    var(--bg);
+  min-height: 100vh;
+}
+
+.page {
+  width: min(1040px, 92vw);
+  margin: 2rem auto 3rem;
+}
+
+.hero h1 { font-size: clamp(1.8rem, 2.8vw, 2.6rem); margin: 0.2rem 0 0.8rem; }
+.hero p { color: var(--muted); line-height: 1.5; margin: 0; max-width: 70ch; }
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.card {
+  margin-top: 1.2rem;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: 0 16px 40px rgba(24, 39, 75, 0.12);
+}
+
+.field-group { margin-bottom: 0.9rem; }
+label { display: inline-block; margin-bottom: 0.35rem; font-weight: 600; }
+
+input, select, textarea {
+  width: 100%;
+  border: 1px solid #c9d2dd;
+  border-radius: 10px;
+  padding: 0.7rem 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: #fff;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 3px solid rgba(23, 162, 184, 0.15);
+  border-color: var(--ring);
+}
+
+.error {
+  display: block;
+  min-height: 1rem;
+  margin-top: 0.3rem;
+  color: var(--error);
+  font-size: 0.84rem;
+}
+
+.muted { color: var(--muted); }
+
+.btn {
+  margin-top: 0.35rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.62rem 0.95rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand), #1790a4);
+  cursor: pointer;
+}
+
+.btn + .btn { margin-left: 0.45rem; }
+.btn:hover { background: linear-gradient(135deg, var(--brand-dark), #126f80); }
+
+.btn-secondary { background: #e6f3f4; color: var(--brand-dark); }
+.btn-secondary:hover { background: #d6ecee; }
+
+.success {
+  margin-top: 1rem;
+  border: 1px solid #badbcc;
+  background: #e9f7ef;
+  color: var(--success);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+#dashboardSummary { margin: 0; color: var(--muted); max-width: 70ch; }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1.1rem 0;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid #dde7ee;
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.stat-label { margin: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.stat-value { margin: 0.25rem 0 0; font-weight: 600; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid #dde7ee;
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.panel h3 { margin: 0 0 0.55rem; }
+.panel-wide { grid-column: span 2; }
+
+.list { margin: 0; padding-left: 1.2rem; line-height: 1.45; }
+.list li + li { margin-top: 0.4rem; }
+
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 0.55rem; }
+th, td { border-bottom: 1px solid #dde7ee; text-align: left; padding: 0.45rem; font-size: 0.88rem; vertical-align: top; }
+th { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+
+.provider-card h3 { margin-top: 0; }
+.provider-meta { margin: 0.35rem 0; font-size: 0.9rem; color: var(--muted); }
+
+.hidden { display: none; }
+
+@media (max-width: 760px) {
+  .dashboard-header { flex-direction: column; }
+  .stats-row, .grid, .two-col { grid-template-columns: 1fr; }
+  .panel-wide { grid-column: auto; }
+  .btn + .btn { margin-left: 0; }
+}
+
+@media (max-width: 640px) {
+  .page { width: 94vw; margin-top: 1.3rem; }
+  .card { padding: 1rem; }
+}

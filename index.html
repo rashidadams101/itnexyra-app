@@ -1,0 +1,191 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexyra Business Intake</title>
+    <script>
+      window.NEXYRA_API_BASE_URL = "https://your-backend-url.onrender.com";
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">Nexyra Platform</p>
+        <h1>Business coaching + growth services in one app.</h1>
+        <p>
+          Create an account, submit intake, get an action plan, connect with matching providers,
+          and choose a billing plan.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="dashboard-header">
+          <div>
+            <h2>Account</h2>
+            <p id="authStatus" class="muted">Sign in or create an account to continue.</p>
+          </div>
+          <button id="logoutBtn" type="button" class="btn btn-secondary hidden">Log Out</button>
+        </div>
+
+        <div class="grid auth-grid">
+          <article class="panel">
+            <h3>Create Account</h3>
+            <form id="registerForm" novalidate>
+              <div class="field-group"><label for="registerName">Name</label><input id="registerName" name="registerName" type="text" required /></div>
+              <div class="field-group"><label for="registerEmail">Email</label><input id="registerEmail" name="registerEmail" type="email" required /></div>
+              <div class="field-group"><label for="registerPassword">Password</label><input id="registerPassword" name="registerPassword" type="password" minlength="6" required /></div>
+              <button type="submit" class="btn">Create Account</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h3>Login</h3>
+            <form id="loginForm" novalidate>
+              <div class="field-group"><label for="loginEmail">Email</label><input id="loginEmail" name="loginEmail" type="email" required /></div>
+              <div class="field-group"><label for="loginPassword">Password</label><input id="loginPassword" name="loginPassword" type="password" required /></div>
+              <button type="submit" class="btn">Login</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h3>Email Verification</h3>
+            <form id="verifyRequestForm" novalidate>
+              <div class="field-group"><label for="verifyEmail">Email</label><input id="verifyEmail" type="email" required /></div>
+              <button type="submit" class="btn btn-secondary">Send Verify Token</button>
+            </form>
+            <form id="verifyConfirmForm" novalidate>
+              <div class="field-group"><label for="verifyToken">Verification Token</label><input id="verifyToken" type="text" required /></div>
+              <button type="submit" class="btn btn-secondary">Verify Email</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h3>Password Reset</h3>
+            <form id="resetRequestForm" novalidate>
+              <div class="field-group"><label for="resetEmail">Email</label><input id="resetEmail" type="email" required /></div>
+              <button type="submit" class="btn btn-secondary">Send Reset Token</button>
+            </form>
+            <form id="resetConfirmForm" novalidate>
+              <div class="field-group"><label for="resetToken">Reset Token</label><input id="resetToken" type="text" required /></div>
+              <div class="field-group"><label for="resetNewPassword">New Password</label><input id="resetNewPassword" type="password" minlength="6" required /></div>
+              <button type="submit" class="btn btn-secondary">Update Password</button>
+            </form>
+          </article>
+        </div>
+
+        <p id="authMessage" class="error"></p>
+      </section>
+
+      <section id="intakeSection" class="card hidden">
+        <h2>Step 1: Intake Form</h2>
+        <form id="intakeForm" novalidate>
+          <div class="field-group"><label for="ownerType">You are a...</label><select id="ownerType" name="ownerType" required><option value="">Choose one</option><option value="existing">Existing Business Owner</option><option value="future">Future Business Owner (Starting Soon)</option></select><small class="error" id="ownerTypeError"></small></div>
+          <div class="field-group"><label for="businessName">Business Name</label><input id="businessName" name="businessName" type="text" required /><small class="error" id="businessNameError"></small></div>
+          <div class="field-group"><label for="businessType">What do you do?</label><textarea id="businessType" name="businessType" rows="3" required></textarea><small class="error" id="businessTypeError"></small></div>
+          <div class="field-group"><label for="targetAudience">Target Audience</label><textarea id="targetAudience" name="targetAudience" rows="3" required></textarea><small class="error" id="targetAudienceError"></small></div>
+          <div class="field-group"><label for="struggles">Top Struggles</label><textarea id="struggles" name="struggles" rows="4" required></textarea><small class="error" id="strugglesError"></small></div>
+          <div class="field-group"><label for="supportNeeded">Support Needed (Next 90 days)</label><textarea id="supportNeeded" name="supportNeeded" rows="4" required></textarea><small class="error" id="supportNeededError"></small></div>
+
+          <button type="submit" class="btn">Submit Intake</button>
+          <button id="loadLatestBtn" type="button" class="btn btn-secondary">Load Last Intake</button>
+        </form>
+
+        <section id="successMessage" class="success hidden" aria-live="polite">
+          <h2>Intake submitted.</h2>
+          <p>Your dashboard has been updated with your latest plan.</p>
+        </section>
+      </section>
+
+      <section id="dashboard" class="card hidden" aria-live="polite">
+        <div class="dashboard-header">
+          <div>
+            <p class="eyebrow">Step 2 Dashboard</p>
+            <h2 id="dashboardTitle">Business Growth Plan</h2>
+            <p id="dashboardSummary"></p>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <article class="stat"><p class="stat-label">Business Stage</p><p id="dashboardStage" class="stat-value"></p></article>
+          <article class="stat"><p class="stat-label">Target Audience</p><p id="dashboardAudience" class="stat-value"></p></article>
+          <article class="stat"><p class="stat-label">Main Focus</p><p id="dashboardFocus" class="stat-value"></p></article>
+        </div>
+
+        <div class="grid">
+          <article class="panel"><h3>Top Struggle Areas</h3><ul id="struggleList" class="list"></ul></article>
+          <article class="panel"><h3>Service Matches</h3><ul id="serviceList" class="list"></ul></article>
+          <article class="panel panel-wide"><h3>90-Day Coaching Action Plan</h3><ol id="actionPlanList" class="list"></ol></article>
+          <article class="panel panel-wide"><h3>AI Coaching Advice</h3><p id="aiCoachingText" class="muted"></p></article>
+        </div>
+      </section>
+
+      <section id="servicesSection" class="card hidden">
+        <div class="dashboard-header">
+          <div>
+            <p class="eyebrow">Marketplace</p>
+            <h2>Matched Service Providers</h2>
+          </div>
+          <button id="refreshProvidersBtn" type="button" class="btn btn-secondary">Refresh Matches</button>
+        </div>
+        <div id="providersList" class="grid"></div>
+      </section>
+
+      <section id="billingSection" class="card hidden">
+        <p class="eyebrow">Billing</p>
+        <h2>Choose Your Plan</h2>
+        <div id="billingPlans" class="grid"></div>
+      </section>
+
+      <section id="adminSection" class="card hidden">
+        <div class="dashboard-header">
+          <div>
+            <p class="eyebrow">Admin</p>
+            <h2>Operations</h2>
+          </div>
+          <button id="refreshAdminBtn" type="button" class="btn btn-secondary">Refresh</button>
+        </div>
+
+        <div class="grid">
+          <article class="panel panel-wide">
+            <h3>All Submissions</h3>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>Owner</th><th>Email</th><th>Business</th><th>Focus</th><th>Created</th></tr></thead>
+                <tbody id="adminRows"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel panel-wide">
+            <h3>Service Requests</h3>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>User</th><th>Email</th><th>Provider</th><th>Status</th><th>Note</th></tr></thead>
+                <tbody id="adminRequestRows"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel panel-wide">
+            <h3>Add Provider</h3>
+            <form id="providerForm" novalidate>
+              <div class="grid two-col">
+                <div class="field-group"><label for="providerName">Name</label><input id="providerName" required /></div>
+                <div class="field-group"><label for="providerServiceType">Service Type</label><input id="providerServiceType" required /></div>
+                <div class="field-group"><label for="providerAudienceType">Audience</label><input id="providerAudienceType" required /></div>
+                <div class="field-group"><label for="providerIndustries">Industries</label><input id="providerIndustries" required /></div>
+                <div class="field-group"><label for="providerPriceStart">Starting Price (USD)</label><input id="providerPriceStart" type="number" required /></div>
+              </div>
+              <div class="field-group"><label for="providerDescription">Description</label><textarea id="providerDescription" rows="3" required></textarea></div>
+              <button type="submit" class="btn">Add Provider</button>
+            </form>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
